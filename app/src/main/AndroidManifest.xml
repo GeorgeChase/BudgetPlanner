@@ -8,6 +8,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"></application>
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainLogin" />
+        <activity android:name=".Budget_Goals" />
+        <activity android:name=".Camera" />
+        <activity android:name=".ConfirmTrans" />
+        <activity android:name=".Expenses" />
+        <activity android:name=".FirstTime" />
+        <activity android:name=".manualEntry" />
+        <activity android:name=".Mood" />
+        <activity android:name=".NewGoal" />
+        <activity android:name=".Overview" />
+        <activity android:name=".Register" />
+    </application>
+
+
 
 </manifest>
