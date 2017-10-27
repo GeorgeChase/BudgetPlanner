@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">BudgetPlanner</string>
+    <string name="app_name">Budget Planner</string>
+    <string name="welcome_logo">Welcome Logo</string>
+    <string name="username">Username</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_full_name">Enter Full Name</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="continueReg">Continue</string>
 </resources>

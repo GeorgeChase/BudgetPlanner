@@ -1,5 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/mainLogPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:contentDescription="@string/welcome_logo"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <CheckBox
+        android:id="@+id/rememberCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/remember_me" />
+
+    <EditText
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainLogPic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/user"
+        android:layout_alignStart="@+id/user"
+        android:layout_below="@+id/user"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/signUpBtn"
+        android:layout_alignBottom="@+id/signUpBtn"
+        android:layout_alignEnd="@+id/pass"
+        android:layout_alignRight="@+id/pass"
+        android:background="@color/colorAccent"
+        android:onClick="login"
+        android:text="@string/login" />
+
+    <Button
+        android:id="@+id/signUpBtn"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass"
+        android:layout_below="@+id/rememberCheck"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorAccent"
+        android:onClick="signUp"
+        android:text="@string/sign_up" />
 </RelativeLayout>
