@@ -39,7 +39,7 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/continueBtn"
+        android:id="@+id/continueBtnReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pass2"

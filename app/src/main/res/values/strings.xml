@@ -10,4 +10,10 @@
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
     <string name="continueReg">Continue</string>
+    <string name="finished">Finished</string>
+    <string name="back">Back</string>
+    <string name="confirm">Confirm</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="category">Category</string>
 </resources>

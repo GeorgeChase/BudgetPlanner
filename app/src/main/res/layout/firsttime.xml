@@ -1,5 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        android:id="@+id/togBtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginTop="45dp"
+        android:text="ToggleButton" />
+
+    <ToggleButton
+        android:id="@+id/togBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignBaseline="@+id/prefTwo"
+        android:layout_alignBottom="@+id/prefTwo"
+        android:layout_alignLeft="@+id/togBtn1"
+        android:layout_alignStart="@+id/togBtn1"
+        android:text="ToggleButton" />
+
+    <ToggleButton
+        android:id="@+id/togBtn3"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignBaseline="@+id/prefThree"
+        android:layout_alignBottom="@+id/prefThree"
+        android:layout_alignLeft="@+id/togBtn2"
+        android:layout_alignStart="@+id/togBtn2"
+        android:text="ToggleButton" />
+
+    <TextView
+        android:id="@+id/prefOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/togBtn1"
+        android:layout_alignBottom="@+id/togBtn1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:text="Preference 1" />
+
+    <TextView
+        android:id="@+id/prefTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/prefOne"
+        android:layout_alignStart="@+id/prefOne"
+        android:layout_below="@+id/togBtn1"
+        android:layout_marginTop="53dp"
+        android:text="Preference 2" />
+
+    <TextView
+        android:id="@+id/prefThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/prefTwo"
+        android:layout_alignStart="@+id/prefTwo"
+        android:layout_below="@+id/togBtn2"
+        android:layout_marginTop="61dp"
+        android:text="Preference 3" />
+
+    <Button
+        android:id="@+id/finishBtnFT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@color/colorAccent"
+        android:onClick="finishRegistration"
+        android:text="@string/finished" />
+
 
 </RelativeLayout>
