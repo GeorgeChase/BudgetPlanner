@@ -17,10 +17,4 @@ public class Register extends AppCompatActivity{
         setContentView(R.layout.register);
         setTitle("Registration");
     }
-
-    public void initializeProfile(View view) {
-        Intent i = new Intent(this, FirstTime.class);
-        //handle name data, add extras to bundle/intent
-        startActivity(i);
-    }
 }

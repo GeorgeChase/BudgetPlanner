@@ -29,9 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mainLogPic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="22dp"
         android:ems="10"
         android:hint="@string/username"
+        android:gravity="center"
         android:inputType="textPersonName" />
 
     <EditText
@@ -44,16 +45,17 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:hint="@string/password"
+        android:gravity="center"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/signUpBtn"
-        android:layout_alignBottom="@+id/signUpBtn"
-        android:layout_alignEnd="@+id/pass"
-        android:layout_alignRight="@+id/pass"
+        android:layout_alignLeft="@+id/rememberCheck"
+        android:layout_alignStart="@+id/rememberCheck"
+        android:layout_below="@+id/rememberCheck"
+        android:layout_marginTop="11dp"
         android:background="@color/colorAccent"
         android:onClick="login"
         android:text="@string/login" />
@@ -62,10 +64,9 @@
         android:id="@+id/signUpBtn"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:layout_below="@+id/rememberCheck"
-        android:layout_marginTop="48dp"
+        android:layout_below="@+id/loginBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
         android:background="@color/colorAccent"
         android:onClick="signUp"
         android:text="@string/sign_up" />

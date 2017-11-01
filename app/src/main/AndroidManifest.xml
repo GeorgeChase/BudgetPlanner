@@ -19,9 +19,6 @@
         <activity android:name=".Camera" />
         <activity android:name=".ConfirmTrans" />
         <activity android:name=".Expenses" />
-        <activity android:name=".FirstTime" />
-        <activity android:name=".manualEntry" />
-        <activity android:name=".Mood" />
         <activity android:name=".NewGoal" />
         <activity android:name=".Overview" />
         <activity android:name=".Register" />
