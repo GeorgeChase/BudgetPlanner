@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "529998493712",
+    "firebase_url": "https://budgetplannercomp3504.firebaseio.com",
+    "project_id": "budgetplannercomp3504",
+    "storage_bucket": "budgetplannercomp3504.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529998493712:android:b507259febbc0d9b",
+        "android_client_info": {
+          "package_name": "com.example.georgechase.budgetplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529998493712-cpbjc91q0020ia5do2hghm9n8ssn6gfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD15oBK-yDcH-PqaK8DWloWdcYRTAobzhM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
