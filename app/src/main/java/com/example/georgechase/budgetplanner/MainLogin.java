@@ -1,15 +1,13 @@
 package com.example.georgechase.budgetplanner;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,85 +17,87 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainLogin extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonRegister;
-    private EditText etTextEmail;
-    private EditText etTextPass;
-    private TextView textViewSignin;
-
-    private ProgressDialog progressDialog;
-
-    private FirebaseAuth firebaseAuth;
+    ProgressBar progressBar;
+    EditText editTextEmail, editTextPassword;
+    FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_login);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        progressDialog = new ProgressDialog(this);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        editTextPassword = (EditText) findViewById(R.id.editTextPass);
 
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
 
-        etTextEmail = (EditText) findViewById(R.id.etTextEmail);
-        etTextPass = (EditText) findViewById(R.id.etTextPass);
+        findViewById(R.id.textViewSignup).setOnClickListener(this);
+        findViewById(R.id.buttonLogin).setOnClickListener(this);
 
-        textViewSignin = (TextView) findViewById(R.id.textViewSignin);
-
-        buttonRegister.setOnClickListener(this);
-        textViewSignin.setOnClickListener(this);
     }
 
-    private void registerUser() {
-        String email = etTextEmail.getText().toString().trim();
-        String password = etTextPass.getText().toString().trim();
+    private void userLogin() {
 
-        if(TextUtils.isEmpty(email)) {
-            //email is empty
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-            //stopping the function execution further
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email is required");
+            editTextEmail.requestFocus();
             return;
         }
 
-        if(TextUtils.isEmpty(password)) {
-            //password is empty
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-            //stopping the function execution further
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please enter a valid email");
+            editTextEmail.requestFocus();
             return;
         }
 
-            //if validations are ok
-            //we will first show a progress bar
+        if (password.isEmpty()) {
+            editTextPassword.setError("Password is required");
+            editTextPassword.requestFocus();
+            return;
+        }
 
-            progressDialog.setMessage("Registering User...");
-            progressDialog.show();
+        if (password.length() < 6) {
+            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.requestFocus();
+            return;
+        }
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()) {
-                        //user is successfully registered and logged in
-                        //we will start the profile activity here
-                        //right now lets display a toast only
-                        Toast.makeText(MainLogin.this, "Registered Successsfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(MainLogin.this, "Could not register... please try again", Toast.LENGTH_SHORT).show();
-                    }
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if(task.isSuccessful()) {
+                    Intent intent = new Intent(MainLogin.this, Overview.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
-            });
-
-
-        }
+                else {
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
-        if(view == buttonRegister) {
-            registerUser();
-        }
+        switch(view.getId()) {
+            case R.id.textViewSignup:
 
-        if(view == textViewSignin) {
-            //will open login activity
+                startActivity(new Intent(this, Signup.class));
+
+                break;
+            case R.id.buttonLogin:
+
+                userLogin();
+
+                break;
         }
     }
 }
