@@ -7,11 +7,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 //Used for managing tabs in the Main Activity
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    private int numTabs;
+    private String[] tabTitles = new String[]{"Overview", "Goals", "Charts"};
 
-    PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    PagerAdapter(FragmentManager fm) {
         super(fm);
-        this.numTabs = NumOfTabs;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabTitles[position];
     }
 
     @Override
@@ -31,6 +35,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return numTabs;
+        return tabTitles.length;
     }
 }

@@ -17,25 +17,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = findViewById(R.id.overviewViewPager);
-        tabLayout = findViewById(R.id.tabLayoutOverview);
+        tabLayout = findViewById(R.id.overviewTabLayout);
 
-        TabLayout.Tab tabOne = tabLayout.newTab();
-        tabOne.setText("Overview");
-        tabLayout.addTab(tabOne);
-
-        TabLayout.Tab tabTwo = tabLayout.newTab();
-        tabTwo.setText("Goals");
-        tabLayout.addTab(tabTwo);
-
-        TabLayout.Tab tabThree = tabLayout.newTab();
-        tabThree.setText("Charts");
-        tabLayout.addTab(tabThree);
-
-        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        //tabLayout.setupWithViewPager(viewPager, true);
+        tabLayout.setupWithViewPager(viewPager, true);
+        tabLayout.bringToFront();
     }
 
     public void addNewGoal(View view) {
