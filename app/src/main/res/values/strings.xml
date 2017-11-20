@@ -100,5 +100,28 @@
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_vibrate">Vibrate</string>
 
+    <!-- Strings related to New Goal Activity -->
+    <string name="frag_goals_header">Current Goals</string>
+    <string name="frag_date_header">Date</string>
+    <string name="frag_category_header">Category</string>
+    <string name="frag_amount_needed_header">Amount Needed</string>
+    <string name="add_a_new_goal">Add a New Goal</string>
+    <string name="submit_btn">Submit</string>
+    <string name="amount_required">Amount Required</string>
+    <string name="date">Date</string>
+    <string name="mm_dd_yyyy">MM / DD / YYYY</string>
+    <string name="other">Other</string>
+    <string name="category">Category</string>
+    <string name="money_sign">$</string>
 
+    <string-array name="category_names">
+        <item>Select a Category</item>
+        <item>Gift</item>
+        <item>New Car</item>
+        <item>Rent</item>
+        <item>Vacation</item>
+        <item>Home</item>
+        <item>School Fees</item>
+        <item>Loan</item>
+    </string-array>
 </resources>

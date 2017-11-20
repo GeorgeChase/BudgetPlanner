@@ -27,9 +27,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_overview"
+            android:label=""
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Camera"
             android:label="@string/title_activity_camera"
@@ -41,6 +41,10 @@
             android:name=".Signup"
             android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewGoal"
+            android:label="@string/add_a_new_goal"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

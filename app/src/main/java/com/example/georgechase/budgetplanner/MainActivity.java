@@ -1,5 +1,6 @@
 package com.example.georgechase.budgetplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final int NEW_GOAL_REQ_CODE = 1;
     ViewPager viewPager;
     TabLayout tabLayout;
 
@@ -28,5 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addNewGoal(View view) {
+        Intent i = new Intent(MainActivity.this, NewGoal.class);
+        startActivityForResult(i,NEW_GOAL_REQ_CODE);
     }
 }
