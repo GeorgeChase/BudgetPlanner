@@ -47,13 +47,30 @@
                 android:layout_marginTop="6dp"
                 android:text="Recent Transactions" />
 
+            <ListView
+                android:id="@+id/recentTransList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:divider="@color/material_blue_grey_800"
+                android:dividerHeight="1dp" />
+
             <TextView
                 android:id="@+id/billsOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
-                android:text="Upcoming Bills" />
+                android:text="Upcoming Bills"/>
+
+            <ListView
+                android:id="@+id/billsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/material_blue_grey_800"
+                android:dividerHeight="1dp"
+                android:headerDividersEnabled="false" />
+
 
             <TextView
                 android:id="@+id/budgetOverview"
@@ -62,6 +79,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:text="Budgets" />
+
+            <ListView
+                android:id="@+id/budgetList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/material_blue_grey_800"
+                android:dividerHeight="1dp" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
