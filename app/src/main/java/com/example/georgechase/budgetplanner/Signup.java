@@ -21,12 +21,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class Signup extends AppCompatActivity implements View.OnClickListener {
 
     EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +88,11 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
+                                initializeUser();
                                 Intent intent = new Intent(Signup.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+                                finish();
                             }
                             else {
 
@@ -100,6 +107,21 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                         }
                     });
         }
+
+    private void initializeUser() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            String uid = user.getUid();
+            database = FirebaseDatabase.getInstance();
+            DatabaseReference usersRef = database.getReference("users");
+
+            HashMap<String, Object> result = new HashMap<>();
+            result.put(uid + "/e-mail/", email);
+            result.put(uid + "/goals/", "Zero");
+            usersRef.updateChildren(result);
+        }
+    }
 
     @Override
     public void onClick(View view) {

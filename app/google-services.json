@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "529998493712-p6kd2fuhq8jei7tomifae0her1l8h7f0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.georgechase.budgetplanner",
+            "certificate_hash": "667ef6c5862803cfa553995efa34fdbd06d42847"
+          }
+        },
+        {
           "client_id": "529998493712-565i5ncej7vkv1hnbgdqmrethm6qnn71.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

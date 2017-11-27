@@ -1,5 +1,6 @@
 package com.example.georgechase.budgetplanner;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -14,16 +16,34 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
+
 
 public class NewGoal extends AppCompatActivity {
 
     private Spinner categorySpinner;
     private String chosenCategory;
+    private EditText dateET;
+    private EditText amtReqET;
+    final private Calendar myCalendar = Calendar.getInstance();
+    private FirebaseDatabase database;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goal);
+
+        dateET =  findViewById(R.id.dateET);
+        amtReqET = findViewById(R.id.amtRequiredET);
 
         //Populates the category spinner from string-array
         categorySpinner = findViewById(R.id.categorySpinner);
@@ -55,6 +75,26 @@ public class NewGoal extends AppCompatActivity {
                 }
             }
         });
+
+        //Pick a date calendar popup
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+        dateET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(NewGoal.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
     }
 
 
@@ -64,10 +104,18 @@ public class NewGoal extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please select or enter another category",  Toast.LENGTH_LONG).show();
         }
         else {
-            EditText dateET = findViewById(R.id.dateET);
-            EditText amtReqET = findViewById(R.id.amtRequiredET);
 
-            setContentView(R.layout.fragment_goals);
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                String uid = user.getUid();
+                database = FirebaseDatabase.getInstance();
+                DatabaseReference usersRef = database.getReference("users");
+
+                //HashMap<String, Object> result = new HashMap<>();
+                //result.put(uid + "/goals/", "Zero");
+                //usersRef.updateChildren(result);
+            }
+         /*   setContentView(R.layout.fragment_goals);
             TableLayout goalTable = findViewById(R.id.goalsTable);
             Integer count = goalTable.getChildCount();
 
@@ -80,10 +128,10 @@ public class NewGoal extends AppCompatActivity {
                     TableRow.LayoutParams.WRAP_CONTENT));
 
             //ID convention: Date = 10X, Category = 20X, Amount Required = 30X; where X = count.
-            TextView date = new TextView(this);
-            date.setId(100 + count);
-            date.setText(dateET.getText().toString());
-            date.setPadding(5, 0,35, 0);
+            TextView theDate = new TextView(this);
+            theDate.setId(100 + count);
+            theDate.setText(dateET.getText().toString());
+            theDate.setPadding(5, 0,35, 0);
 
             TextView category = new TextView(this);
             category.setId(200 + count);
@@ -97,14 +145,17 @@ public class NewGoal extends AppCompatActivity {
             amtRequired.setText(amount);
             amtRequired.setPadding(70, 0,35, 0);
 
-            row.addView(date);
+            row.addView(theDate);
             row.addView(category);
             row.addView(amtRequired);
 
-            goalTable.addView(row);
+            goalTable.addView(row);*/
         }
     }
 
-    public void addNewGoal(View view) {
+    private void updateLabel() {
+        String dateFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        dateET.setText(sdf.format(myCalendar.getTime()));
     }
 }

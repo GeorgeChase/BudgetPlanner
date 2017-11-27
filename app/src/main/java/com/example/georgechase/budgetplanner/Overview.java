@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Overview extends Fragment {
 
     ListView transList;
     ListView billsList;
     ListView budgetList;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
     @Override
@@ -25,6 +29,7 @@ public class Overview extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
+        //List stubs for recent transactions, upcoming bills, and budgets
         String transactionList[] = {"Transaction 1", "Transaction 2", "Transaction 3"};
         transList = view.findViewById(R.id.recentTransList);
 

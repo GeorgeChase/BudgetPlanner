@@ -27,7 +27,9 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/mm_dd_yyyy"
-        android:inputType="date"
+        android:clickable="true"
+        android:focusable="false"
+        android:longClickable="false"
         app:layout_constraintBottom_toTopOf="@+id/amtRequiredET"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="16dp" />
