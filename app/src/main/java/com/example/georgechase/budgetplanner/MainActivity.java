@@ -15,9 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final int NEW_GOAL_REQ_CODE = 1;
-    ViewPager viewPager;
-    TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewGoal(View view) {
         Intent i = new Intent(MainActivity.this, NewGoal.class);
-        startActivityForResult(i,NEW_GOAL_REQ_CODE);
+        startActivity(i);
     }
+
+    @Override
+    protected void onResume () {
+        super.onResume();
+        if (viewPager != null && viewPager.getAdapter() != null) {
+            viewPager.getAdapter().notifyDataSetChanged();
+        }
+    }
+
 }

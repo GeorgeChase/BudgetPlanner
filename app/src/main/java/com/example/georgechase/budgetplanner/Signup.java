@@ -118,7 +118,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
 
             HashMap<String, Object> result = new HashMap<>();
             result.put(uid + "/e-mail/", email);
-            result.put(uid + "/goals/", "Zero");
+            result.put(uid + "/goals/", "");
             usersRef.updateChildren(result);
         }
     }

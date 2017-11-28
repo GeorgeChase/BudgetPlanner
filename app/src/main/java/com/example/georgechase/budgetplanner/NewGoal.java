@@ -3,6 +3,7 @@ package com.example.georgechase.budgetplanner;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -11,19 +12,18 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.georgechase.budgetplanner.models.Goal;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 
 
@@ -33,9 +33,8 @@ public class NewGoal extends AppCompatActivity {
     private String chosenCategory;
     private EditText dateET;
     private EditText amtReqET;
-    final private Calendar myCalendar = Calendar.getInstance();
-    private FirebaseDatabase database;
-    private FirebaseUser user;
+    private Calendar myCalendar;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class NewGoal extends AppCompatActivity {
 
         dateET =  findViewById(R.id.dateET);
         amtReqET = findViewById(R.id.amtRequiredET);
+        myCalendar = Calendar.getInstance();
 
         //Populates the category spinner from string-array
         categorySpinner = findViewById(R.id.categorySpinner);
@@ -95,8 +95,24 @@ public class NewGoal extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-    }
 
+        //Gets the count for number of goals
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("goals")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int numOfGoals = (int) dataSnapshot.getChildrenCount();
+                        initNumGoalsCount(numOfGoals);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
 
     public void submitNewGoal(View view) {
         CheckBox checkbox = findViewById(R.id.otherChkBx);
@@ -104,58 +120,33 @@ public class NewGoal extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please select or enter another category",  Toast.LENGTH_LONG).show();
         }
         else {
+            Goal goal = new Goal ();
+            goal.setDate(dateET.getText().toString());
+            goal.setCategory(chosenCategory);
+            goal.setRequired_amount(amtReqET.getText().toString());
 
-            user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                String uid = user.getUid();
-                database = FirebaseDatabase.getInstance();
-                DatabaseReference usersRef = database.getReference("users");
+            //Updates current user's goals
+            String goalCounter = Integer.toString(count);
+            FirebaseDatabase.getInstance().getReference()
+                    .child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("goals")
+                    .child("goal " + goalCounter)
+                    .setValue(goal);
 
-                //HashMap<String, Object> result = new HashMap<>();
-                //result.put(uid + "/goals/", "Zero");
-                //usersRef.updateChildren(result);
-            }
-         /*   setContentView(R.layout.fragment_goals);
-            TableLayout goalTable = findViewById(R.id.goalsTable);
-            Integer count = goalTable.getChildCount();
-
-            TableRow row = new TableRow(this);
-            if (count % 2 != 1) {
-               row.setBackgroundColor(getResources().getColor(R.color.colorAccentLight));
-            }
-            row.setLayoutParams(new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT));
-
-            //ID convention: Date = 10X, Category = 20X, Amount Required = 30X; where X = count.
-            TextView theDate = new TextView(this);
-            theDate.setId(100 + count);
-            theDate.setText(dateET.getText().toString());
-            theDate.setPadding(5, 0,35, 0);
-
-            TextView category = new TextView(this);
-            category.setId(200 + count);
-            category.setText(chosenCategory);
-            category.setPadding(70, 0,35, 0);
-
-            TextView amtRequired = new TextView(this);
-            String amount = getString(R.string.money_sign) +
-                    amtReqET.getText().toString();
-            amtRequired.setId(300 + count);
-            amtRequired.setText(amount);
-            amtRequired.setPadding(70, 0,35, 0);
-
-            row.addView(theDate);
-            row.addView(category);
-            row.addView(amtRequired);
-
-            goalTable.addView(row);*/
+            Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
     private void updateLabel() {
-        String dateFormat = "MM/dd/yy";
+        String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
         dateET.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void initNumGoalsCount(int numGoals) {
+        this.count = numGoals;
+        count++;
     }
 }
