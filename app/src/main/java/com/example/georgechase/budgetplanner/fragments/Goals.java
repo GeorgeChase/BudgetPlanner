@@ -26,6 +26,7 @@ public class Goals extends Fragment {
     private int numGoals;
     private DatabaseReference reference;
     private boolean firstInit  = false;
+    private int count;
 
     public Goals(){
         // Empty Constructor
@@ -39,8 +40,6 @@ public class Goals extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         reference = FirebaseDatabase.getInstance().getReference();
-        updateNumGoalsCount();
-        initUserGoalData();
         rootView = inflater.inflate(R.layout.fragment_goals, container, false);
         return rootView;
     }
@@ -74,7 +73,7 @@ public class Goals extends Fragment {
     private void insertGoalToTable(String date, String categoryData, String amtReq){
 
         TableLayout goalTable = rootView.findViewById(R.id.goalsTable);
-        int count = goalTable.getChildCount();
+         count = goalTable.getChildCount();
 
         TableRow row = new TableRow(getActivity());
         if (count % 2 != 1) {
@@ -111,10 +110,9 @@ public class Goals extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        int currentGoalsCount = numGoals;
         updateNumGoalsCount();
-
-        if (currentGoalsCount != numGoals) {
+        Log.d(TAG, "onDataChange: AFTER - Current Goals Count = " + count + " | NumGoals Counter = " + numGoals);
+        if (numGoals != count) {
             addNewGoal();
         }
     }
@@ -124,13 +122,14 @@ public class Goals extends Fragment {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("goals")
                 .orderByKey()
-                .equalTo("goal " + (numGoals + 1));
+                .equalTo("goal " + numGoals);
+        Log.d(TAG, "onDataChange: INSIDE ADD NEW GOAL - Current Goals Count = " + count + " | NumGoals Counter = " + numGoals);
         getGoals.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Goal goal = singleSnapshot.getValue(Goal.class);
-                    Log.d(TAG, "onDataChange: (QUERY FOR GOALS) found goal: " + goal.toString());
+                    Log.d(TAG, "onDataChange: (ADDING GOAL) found goal: " + goal.toString());
 
                     insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
                 }
@@ -154,7 +153,7 @@ public class Goals extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         int numOfGoals = (int) dataSnapshot.getChildrenCount();
                         setNumGoalsCount(numOfGoals);
-                        Log.d(TAG, "onDataChange: (COUNT) = " + numOfGoals);
+
                         if (!firstInit) {
                             initUserGoalData();
                             firstInit = true;
@@ -168,5 +167,6 @@ public class Goals extends Fragment {
     }
     private void setNumGoalsCount(int numOfGoals) {
         this.numGoals = numOfGoals;
+        Log.d(TAG, "onDataChange: UPDATER COUNT = " + numGoals);
     }
 }
