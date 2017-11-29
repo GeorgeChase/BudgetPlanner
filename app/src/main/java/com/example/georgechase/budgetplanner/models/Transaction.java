@@ -2,12 +2,12 @@ package com.example.georgechase.budgetplanner.models;
 
 public class Transaction {
     private String date;
-    private String category;
+    private String itemName;
     private String amount;
 
-    public Transaction(String date, String category, String amount) {
+    public Transaction(String date, String itemName, String amount) {
         this.date = date;
-        this.category = category;
+        this.itemName = itemName;
         this.amount = amount;
     }
 
@@ -22,12 +22,12 @@ public class Transaction {
         this.date = date;
     }
 
-    public String getCategory() {
-        return category;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getAmount() {
@@ -42,7 +42,7 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "date='" + date + '\'' +
-                ", category='" + category + '\'' +
+                ", itemName='" + itemName + '\'' +
                 ", amount='" + amount + '\'' +
                 '}';
     }

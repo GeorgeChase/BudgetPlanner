@@ -87,18 +87,18 @@ public class Goals extends Fragment {
         TextView theDate = new TextView(getActivity());
         theDate.setId(100 + count);
         theDate.setText(date);
-        theDate.setPadding(5, 0,35, 0);
+        theDate.setPadding(5, 0, 35, 0);
 
         TextView category = new TextView(getActivity());
         category.setId(200 + count);
         category.setText(categoryData);
-        category.setPadding(75, 0,35, 0);
+        category.setPadding(75, 0, 35, 0);
 
         TextView amtRequired = new TextView(getActivity());
         String amount = getString(R.string.money_sign) + amtReq;
         amtRequired.setId(300 + count);
         amtRequired.setText(amount);
-        amtRequired.setPadding(75, 0,35, 0);
+        amtRequired.setPadding(75, 0, 35, 0);
 
         row.addView(theDate);
         row.addView(category);

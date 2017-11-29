@@ -113,6 +113,7 @@
     <string name="other">Other</string>
     <string name="category">Category</string>
     <string name="money_sign">$</string>
+    <string name="add_a_transaction">Add a Transaction</string>
 
     <string-array name="category_names">
         <item>Select a Category</item>
