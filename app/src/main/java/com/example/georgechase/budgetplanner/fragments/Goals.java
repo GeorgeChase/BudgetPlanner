@@ -1,4 +1,4 @@
-package com.example.georgechase.budgetplanner;
+package com.example.georgechase.budgetplanner.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.georgechase.budgetplanner.R;
 import com.example.georgechase.budgetplanner.models.Goal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -128,7 +129,7 @@ public class Goals extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Goal goal = singleSnapshot.getValue(Goal.class);
-                    Log.d(TAG, "onDataChange: ADDING GOAL found goal: " + goal.toString());
+                    Log.d(TAG, "onDataChange: (ADDING GOAL) found goal: " + goal.toString());
 
                     insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
                 }
@@ -153,7 +154,7 @@ public class Goals extends Fragment {
                         int numOfGoals = (int) dataSnapshot.getChildrenCount();
                         setNumGoalsCount(numOfGoals);
 
-                        if (firstInit == false) {
+                        if (!firstInit) {
                             initUserGoalData();
                             firstInit = true;
                         }

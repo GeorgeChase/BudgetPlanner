@@ -3,6 +3,7 @@ package com.example.georgechase.budgetplanner;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -33,6 +34,7 @@ public class NewGoal extends AppCompatActivity {
     private String chosenCategory;
     private EditText dateET;
     private EditText amtReqET;
+    private EditText category;
     private Calendar myCalendar;
     private int count;
 
@@ -65,7 +67,7 @@ public class NewGoal extends AppCompatActivity {
         CheckBox checkbox = findViewById(R.id.otherChkBx);
         checkbox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText category = findViewById(R.id.newCategoryET);
+                category = findViewById(R.id.newCategoryET);
                 if (((CheckBox) v).isChecked()) {
                     category.setVisibility(View.VISIBLE);
                     categorySpinner.setAlpha(0.5F);
@@ -119,24 +121,41 @@ public class NewGoal extends AppCompatActivity {
         if (chosenCategory.equals("Select a Category")  && !checkbox.isChecked()) {
             Toast.makeText(getApplicationContext(), "Please select or enter another category",  Toast.LENGTH_LONG).show();
         }
-        else {
-            Goal goal = new Goal ();
-            goal.setDate(dateET.getText().toString());
-            goal.setCategory(chosenCategory);
-            goal.setRequired_amount(amtReqET.getText().toString());
-
-            //Updates current user's goals
-            String goalCounter = Integer.toString(count);
-            FirebaseDatabase.getInstance().getReference()
-                    .child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("goals")
-                    .child("goal " + goalCounter)
-                    .setValue(goal);
-
-            Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_LONG).show();
-            finish();
+        else if (TextUtils.isEmpty(dateET.getText())){
+            Toast.makeText(getApplicationContext(), "Please input a date",  Toast.LENGTH_LONG).show();
         }
+        else if (TextUtils.isEmpty(amtReqET.getText())){
+            Toast.makeText(getApplicationContext(), "Please input the required amount",  Toast.LENGTH_LONG).show();
+        }
+        else if (checkbox.isChecked() && TextUtils.isEmpty(category.getText())) {
+            Toast.makeText(getApplicationContext(), "Please enter a new category",  Toast.LENGTH_LONG).show();
+        }
+        else if (checkbox.isChecked() && !TextUtils.isEmpty(category.getText())) {
+            chosenCategory = category.getText().toString();
+            addGoalToDB();
+        }
+        else {
+            addGoalToDB();
+        }
+    }
+
+    private void addGoalToDB() {
+        Goal goal = new Goal ();
+        goal.setDate(dateET.getText().toString());
+        goal.setCategory(chosenCategory);
+        goal.setRequired_amount(amtReqET.getText().toString());
+
+        //Updates current user's goals
+        String goalCounter = Integer.toString(count);
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("goals")
+                .child("goal " + goalCounter)
+                .setValue(goal);
+
+        Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void updateLabel() {

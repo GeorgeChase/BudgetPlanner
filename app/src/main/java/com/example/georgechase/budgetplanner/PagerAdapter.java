@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.georgechase.budgetplanner.fragments.Charts;
+import com.example.georgechase.budgetplanner.fragments.Goals;
+import com.example.georgechase.budgetplanner.fragments.Overview;
+
 //Used for managing tabs in the Main Activity
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
