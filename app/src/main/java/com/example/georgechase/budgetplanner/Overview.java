@@ -16,7 +16,7 @@ public class Overview extends Fragment {
     ListView transList;
     ListView billsList;
     ListView budgetList;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseDatabase database;
 
 
     @Override
@@ -27,6 +27,7 @@ public class Overview extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        database = FirebaseDatabase.getInstance();
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         //List stubs for recent transactions, upcoming bills, and budgets

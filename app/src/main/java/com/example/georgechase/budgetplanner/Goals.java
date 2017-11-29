@@ -112,10 +112,7 @@ public class Goals extends Fragment {
         super.onResume();
         int currentGoalsCount = numGoals;
         updateNumGoalsCount();
-        if (firstInit == false) {
-            initUserGoalData();
-            firstInit = true;
-        }
+
         if (currentGoalsCount != numGoals) {
             addNewGoal();
         }
@@ -157,6 +154,10 @@ public class Goals extends Fragment {
                         int numOfGoals = (int) dataSnapshot.getChildrenCount();
                         setNumGoalsCount(numOfGoals);
                         Log.d(TAG, "onDataChange: (COUNT) = " + numOfGoals);
+                        if (firstInit == false) {
+                            initUserGoalData();
+                            firstInit = true;
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
