@@ -114,6 +114,15 @@
     <string name="category">Category</string>
     <string name="money_sign">$</string>
     <string name="add_a_transaction">Add a Transaction</string>
+    <string name="camera">camera</string>
+    <string name="more_options">More Options</string>
+    <string name="confirm_transaction">Confirm Transaction</string>
+    <string name="date_colon">Date:</string>
+    <string name="item_colon">Item:</string>
+    <string name="amount_colon">Amount:</string>
+    <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
+    <string name="all_transactions">All Transactions</string>
 
     <string-array name="category_names">
         <item>Select a Category</item>

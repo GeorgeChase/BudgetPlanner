@@ -70,7 +70,7 @@
         <TextView
             android:textAlignment="center"
             android:id="@+id/textViewSignup"
-            android:text="Dont have an account? Sign up here"
+            android:text="Don't have an account? Sign up here"
             android:textColor="@color/colorBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

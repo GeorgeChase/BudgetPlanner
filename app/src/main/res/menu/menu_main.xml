@@ -6,10 +6,17 @@
 
     <item
         android:id="@+id/action_camera"
-        android:icon="@drawable/camera_icon"
+        android:icon="@drawable/ic_photo_camera_black"
         android:orderInCategory="300"
-        android:title="Camera"
-        app:showAsAction="always">
+        android:title="@string/camera"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/action_more_options"
+        android:icon="@drawable/ic_more_options"
+        android:orderInCategory="300"
+        android:title="@string/more_options"
+        app:showAsAction="ifRoom">
     </item>
 
 </menu>

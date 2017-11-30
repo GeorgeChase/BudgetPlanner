@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,8 +69,33 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             return true;
         }
+        else if (id ==R.id.action_more_options) {
+            View moreOptions = findViewById(R.id.action_more_options);
+            PopupMenu popup = new PopupMenu(this, moreOptions);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.overflow_more_options, popup.getMenu());
+            popup.show();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void goToManualTransaction(MenuItem item) {
+        Intent i = new Intent(MainActivity.this, ManualTransaction.class);
+        startActivity(i);
+    }
+
+    public void goToViewAllTransactions(MenuItem item) {
+        //TODO: Implement View All Transactions Activity (See all transactions for user)
+    }
+
+    public void goToPreferences(MenuItem item) {
+        //TODO: Implement Preferences (Change/update user's name, e-mail, etc.)
+    }
+
+    public void signOut(MenuItem item) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+    }
 }

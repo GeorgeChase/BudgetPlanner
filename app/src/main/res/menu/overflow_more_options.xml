@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.georgechase.budgetplanner.MainActivity">
+    <item
+        android:id="@+id/action_manual_transaction"
+        android:orderInCategory="100"
+        android:title="Enter New Transaction"
+        android:onClick="goToManualTransaction"/>
+    <item
+        android:id="@+id/action_all_transactions"
+        android:orderInCategory="101"
+        android:title="View All Transactions"
+        app:showAsAction="never"
+        android:onClick="goToViewAllTransactions"/>
+    <item
+        android:id="@+id/action_user_preferences"
+        android:orderInCategory="101"
+        android:title="Preferences"
+        app:showAsAction="never"
+        android:onClick="goToPreferences"/>
+    <item
+        android:id="@+id/action_sign_out"
+        android:orderInCategory="101"
+        android:title="Sign Out"
+        app:showAsAction="never"
+        android:onClick="signOut"/>
+</menu>

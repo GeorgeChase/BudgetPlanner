@@ -95,9 +95,8 @@ public class Goals extends Fragment {
         category.setPadding(75, 0,35, 0);
 
         TextView amtRequired = new TextView(getActivity());
-        String amount = getString(R.string.money_sign) + amtReq;
         amtRequired.setId(300 + count);
-        amtRequired.setText(amount);
+        amtRequired.setText(amtReq);
         amtRequired.setPadding(75, 0,35, 0);
 
         row.addView(theDate);

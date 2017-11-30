@@ -3,8 +3,9 @@ package com.example.georgechase.budgetplanner;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -34,7 +36,7 @@ public class NewGoal extends AppCompatActivity {
     private String chosenCategory;
     private EditText dateET;
     private EditText amtReqET;
-    private EditText category;
+    private EditText otherCategory;
     private Calendar myCalendar;
     private int count;
 
@@ -46,6 +48,35 @@ public class NewGoal extends AppCompatActivity {
         dateET =  findViewById(R.id.dateET);
         amtReqET = findViewById(R.id.amtRequiredET);
         myCalendar = Calendar.getInstance();
+
+        //Formats numbers into currency as the user inputs
+        amtReqET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            private String current = "";
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals(current)){
+                    amtReqET.removeTextChangedListener(this);
+
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+
+                    current = formatted;
+                    amtReqET.setText(formatted);
+                    amtReqET.setSelection(formatted.length());
+
+                    amtReqET.addTextChangedListener(this);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         //Populates the category spinner from string-array
         categorySpinner = findViewById(R.id.categorySpinner);
@@ -67,12 +98,12 @@ public class NewGoal extends AppCompatActivity {
         CheckBox checkbox = findViewById(R.id.otherChkBx);
         checkbox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                category = findViewById(R.id.newCategoryET);
+                otherCategory = findViewById(R.id.newCategoryET);
                 if (((CheckBox) v).isChecked()) {
-                    category.setVisibility(View.VISIBLE);
+                    otherCategory.setVisibility(View.VISIBLE);
                     categorySpinner.setAlpha(0.5F);
                 } else {
-                    category.setVisibility(View.GONE);
+                    otherCategory.setVisibility(View.GONE);
                     categorySpinner.setAlpha(1.0F);
                 }
             }
@@ -127,11 +158,11 @@ public class NewGoal extends AppCompatActivity {
         else if (TextUtils.isEmpty(amtReqET.getText())){
             Toast.makeText(getApplicationContext(), "Please input the required amount",  Toast.LENGTH_LONG).show();
         }
-        else if (checkbox.isChecked() && TextUtils.isEmpty(category.getText())) {
+        else if (checkbox.isChecked() && TextUtils.isEmpty(otherCategory.getText())) {
             Toast.makeText(getApplicationContext(), "Please enter a new category",  Toast.LENGTH_LONG).show();
         }
-        else if (checkbox.isChecked() && !TextUtils.isEmpty(category.getText())) {
-            chosenCategory = category.getText().toString();
+        else if (checkbox.isChecked() && !TextUtils.isEmpty(otherCategory.getText())) {
+            chosenCategory = otherCategory.getText().toString();
             addGoalToDB();
         }
         else {
@@ -155,7 +186,7 @@ public class NewGoal extends AppCompatActivity {
                 .setValue(goal);
 
         Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_SHORT).show();
-        finish();
+        this.finish();
     }
 
     private void updateLabel() {
@@ -166,6 +197,6 @@ public class NewGoal extends AppCompatActivity {
 
     private void initNumGoalsCount(int numGoals) {
         this.count = numGoals;
-        count++;
+        count++; //Just to offset goals to start at 1 and not 0.
     }
 }

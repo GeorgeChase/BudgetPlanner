@@ -4,4 +4,6 @@
     <color name="colorAccent">#e16506</color>
     <color name="colorBackground">#ffffff</color>
     <color name="colorAccentLight">#9ce16506</color>
+    <color name="transparent_box">#cc9b9999</color>
+    <color name="hint_text_dark">#bf151515</color>
 </resources>
