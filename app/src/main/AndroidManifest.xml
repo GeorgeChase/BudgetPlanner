@@ -56,7 +56,7 @@
             android:label="@string/add_a_new_goal"
             android:theme="@style/AppTheme" />
         <activity
-        android:name="com.example.georgechase.budgetplanner.OcrCaptureActivity"
+        android:name=".OcrCaptureActivity"
         android:label="Read Text"
         android:theme="@style/AppTheme"/>
 
