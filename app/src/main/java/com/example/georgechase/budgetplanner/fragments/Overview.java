@@ -29,6 +29,7 @@ public class Overview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         database = FirebaseDatabase.getInstance();
+        //TODO: Revamp overview to implement database items into Listview
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         //List stubs for recent transactions, upcoming bills, and budgets

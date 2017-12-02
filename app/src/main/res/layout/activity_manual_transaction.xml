@@ -31,7 +31,7 @@
             android:layout_marginTop="40dp"
             android:backgroundTint="@color/colorPrimary"
             android:ems="10"
-            android:hint="Enter Transaction Name"
+            android:hint="Transaction Name"
             android:inputType="text"
             android:textColorHint="@color/hint_text_dark"
             app:layout_constraintBottom_toTopOf="@+id/dateET_manual_transaction"
