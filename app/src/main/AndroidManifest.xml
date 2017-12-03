@@ -56,19 +56,21 @@
             android:label="@string/add_a_new_goal"
             android:theme="@style/AppTheme" />
         <activity
-        android:name=".OcrCaptureActivity"
-        android:label="Read Text"
-        android:theme="@style/AppTheme"/>
-
+            android:name=".OcrCaptureActivity"
+            android:label="Read Text"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".GoalDetails"
+            android:label="Goal Details"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ConfirmTransaction"
-            android:label="ConfirmTransaction"
-            android:theme="@style/AppTheme" />
-
+            android:label="@string/confirm_transaction"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".AllTransactions"
             android:label="@string/all_transactions"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
 
 
     </application>

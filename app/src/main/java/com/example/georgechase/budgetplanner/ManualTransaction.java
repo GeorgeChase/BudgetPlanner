@@ -1,6 +1,7 @@
 package com.example.georgechase.budgetplanner;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.Locale;
 
 public class ManualTransaction extends AppCompatActivity{
 
+    private static ManualTransaction manualTransaction;
     private EditText itemName;
     private EditText dateET;
     private EditText amountET;
@@ -30,6 +32,7 @@ public class ManualTransaction extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_transaction);
+        manualTransaction = this;
 
         itemName = findViewById(R.id.itemET_manual_transaction);
         dateET= findViewById(R.id.dateET_manual_transaction);
@@ -85,7 +88,33 @@ public class ManualTransaction extends AppCompatActivity{
             }
         });
 
+        //So if you tap outside of the edit text field, it hides the keyboard
+        itemName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        amountET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
     }
+    public void hideKeyboard(View view) {
+        // Remember to set Parent views of the EditTexts to:
+        // android:clickable="true" android:focusableInTouchMode="true"
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     private void updateLabel() {
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
@@ -127,5 +156,15 @@ public class ManualTransaction extends AppCompatActivity{
             return false;
         }
         return true;
+    }
+
+    public static ManualTransaction getInstance(){
+        return   manualTransaction;
+    }
+
+    public void clearFields(View view) {
+        itemName.setText("");
+        dateET.setText("");
+        amountET.setText("0");
     }
 }

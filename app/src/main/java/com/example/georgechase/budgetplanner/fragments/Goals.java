@@ -1,15 +1,20 @@
 package com.example.georgechase.budgetplanner.fragments;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.georgechase.budgetplanner.GoalDetails;
 import com.example.georgechase.budgetplanner.R;
 import com.example.georgechase.budgetplanner.models.Goal;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,13 +25,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
 public class Goals extends Fragment {
     private static final String TAG = "Goals";
     private View rootView;
-    private int numGoals;
     private DatabaseReference reference;
-    private boolean firstInit  = false;
-    private int count;
+    private ArrayList<Goal> goalList;
+    private boolean firstInit;
 
     public Goals(){
         // Empty Constructor
@@ -44,36 +52,16 @@ public class Goals extends Fragment {
         return rootView;
     }
 
-    private void initUserGoalData() {
-        //Loops through goals and adds them to the current goals table
-        for (int i = 1; i <= numGoals; i++) {
-            Query getGoals = reference.child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("goals")
-                    .orderByKey()
-                    .equalTo("goal " + i);
-            getGoals.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                        Goal goal = singleSnapshot.getValue(Goal.class);
-                        Log.d(TAG, "onDataChange: (QUERY FOR GOALS) found goal: " + goal.toString());
-
-                        insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
+    @Override
+    public void onResume(){
+        super.onResume();
+        queryForAllGoals();
     }
+
     private void insertGoalToTable(String date, String categoryData, String amtReq){
 
-        TableLayout goalTable = rootView.findViewById(R.id.goalsTable);
-         count = goalTable.getChildCount();
+        final TableLayout goalTable = rootView.findViewById(R.id.goalsTable);
+        int count = goalTable.getChildCount();
 
         TableRow row = new TableRow(getActivity());
         if (count % 2 != 1) {
@@ -87,18 +75,47 @@ public class Goals extends Fragment {
         TextView theDate = new TextView(getActivity());
         theDate.setId(100 + count);
         theDate.setText(date);
-        theDate.setPadding(5, 0,35, 0);
+        theDate.setTextSize(16);
+        theDate.setPadding(10,10,35,10);
+        /*theDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goalDetails(v);
+            }
+        });*/
 
         TextView category = new TextView(getActivity());
         category.setId(200 + count);
         category.setText(categoryData);
-        category.setPadding(75, 0,35, 0);
+        category.setTextSize(16);
+        category.setPadding(125,10,35,10);
+        /*category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goalDetails(v);
+            }
+        });*/
 
         TextView amtRequired = new TextView(getActivity());
         amtRequired.setId(300 + count);
         amtRequired.setText(amtReq);
-        amtRequired.setPadding(75, 0,35, 0);
+        amtRequired.setTextSize(16);
+        amtRequired.setPadding(35,10,35,10);
+        amtRequired.setGravity(Gravity.END);
+        /*amtRequired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goalDetails(v);
+            }
+        }); */
 
+        row.setId(count);
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goalDetails(v, goalTable);
+            }
+        });
         row.addView(theDate);
         row.addView(category);
         row.addView(amtRequired);
@@ -106,66 +123,93 @@ public class Goals extends Fragment {
         goalTable.addView(row);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateNumGoalsCount();
-        Log.d(TAG, "onDataChange: AFTER - Current Goals Count = " + count + " | NumGoals Counter = " + numGoals);
-        if (numGoals != count) {
-            addNewGoal();
+    private void goalDetails(View v, TableLayout table) {
+        //TODO: Implement Goal Details Activity (Shows the clicked goal's details, options to edit, etc.)
+
+        String date = "";
+        String category = "";
+        String amountRequired = "";
+
+        int goalRowId = v.getId();
+        View goalRow = table.getChildAt(goalRowId);
+        if (goalRow instanceof TableRow) {
+            View d = ((TableRow) goalRow).getChildAt(0);
+            TextView d2 = (TextView)d;
+            date = d2.getText().toString();
+
+            View c = ((TableRow) goalRow).getChildAt(1);
+            TextView c2 = (TextView)c;
+            category = c2.getText().toString();
+
+            View a = ((TableRow) goalRow).getChildAt(2);
+            TextView a2 = (TextView)a;
+            amountRequired = a2.getText().toString();
         }
+
+        Intent i = new Intent(getActivity(), GoalDetails.class);
+        i.putExtra("date", date);
+        i.putExtra("category", category);
+        i.putExtra("amountRequired", amountRequired);
+        startActivity(i);
+
+
+        //Toast.makeText(getActivity(), "OnClick works: " + goalId,  Toast.LENGTH_SHORT).show();
     }
 
     private void addNewGoal() {
+        int lastIndex = goalList.size() - 1;
+        Goal goal = goalList.get(lastIndex);
+        insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
+    }
+
+    private void queryForAllGoals() {
+        //Queries the list of goals for current user.
         Query getGoals = reference.child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("goals")
-                .orderByKey()
-                .equalTo("goal " + numGoals);
-        Log.d(TAG, "onDataChange: INSIDE ADD NEW GOAL - Current Goals Count = " + count + " | NumGoals Counter = " + numGoals);
+                .child("goals");
         getGoals.addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<Goal> tempGoalList = new ArrayList<>();
+            int prevCount;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    Goal goal = singleSnapshot.getValue(Goal.class);
-                    Log.d(TAG, "onDataChange: (ADDING GOAL) found goal: " + goal.toString());
-
-                    insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
+                for (DataSnapshot goalSnap : dataSnapshot.getChildren()) {
+                    tempGoalList.add(goalSnap.getValue(Goal.class));
                 }
+
+                if (firstInit) {
+                    prevCount = goalList.size();
+                }
+
+                goalList = tempGoalList;
+
+                Log.d(TAG, "onDataChange: prevCount= " + prevCount + " | tempGoalSize= " + tempGoalList.size());
+                if (!firstInit) {
+                    initGoalTable();
+                    firstInit = true;
+                }
+                else if (prevCount < tempGoalList.size()) {
+                    addNewGoal();
+                }
+                //Might need to add another else if depending on how deleting/editing a goal works
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.d(TAG, "onDataChange: (onCancelled Method)");
             }
         });
     }
 
-    private void updateNumGoalsCount() {
-        //Gets the count for number of goals
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("goals")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        int numOfGoals = (int) dataSnapshot.getChildrenCount();
-                        setNumGoalsCount(numOfGoals);
-
-                        if (!firstInit) {
-                            initUserGoalData();
-                            firstInit = true;
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-
+    private void initGoalTable() {
+        for (int i = 0; i < goalList.size(); i++) {
+            Goal goal = goalList.get(i);
+            Log.d(TAG, "onDataChange: (ADDING GOAL) found goal: " + goal.toString());
+            insertGoalToTable(goal.getDate(), goal.getCategory(), goal.getRequired_amount());
+        }
     }
-    private void setNumGoalsCount(int numOfGoals) {
-        this.numGoals = numOfGoals;
-        Log.d(TAG, "onDataChange: UPDATER COUNT = " + numGoals);
+
+    public void resetTable() {
+        firstInit = false;
     }
 }

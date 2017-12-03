@@ -31,7 +31,7 @@ public class ConfirmTransaction extends AppCompatActivity {
         setContentView(R.layout.activity_confirm_transaction);
 
         Bundle extras = getIntent().getExtras();
-        if (extras !=null) {
+        if (extras != null) {
             itemName = extras.getString("itemName");
             date = extras.getString("date");
             amount = extras.getString("amount");
@@ -65,6 +65,7 @@ public class ConfirmTransaction extends AppCompatActivity {
                 .child("transaction " + Integer.toString(count))
                 .setValue(trans);
         Toast.makeText(getApplicationContext(), "Transaction has successfully been added.",  Toast.LENGTH_SHORT).show();
+        ManualTransaction.getInstance().finish();
         goToAllTransactions();
     }
 
