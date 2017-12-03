@@ -16,13 +16,19 @@
 
 package com.example.georgechase.budgetplanner;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 
@@ -37,6 +43,8 @@ public class Camera extends Activity implements View.OnClickListener {
     private CompoundButton useFlash;
     private TextView statusMessage;
     private TextView textValue;
+    private String transaction = "";
+    private String currentTime = Calendar.getInstance().getTime().toString();
 
     private static final int RC_OCR_CAPTURE = 9003;
     private static final String TAG = "Camera";
@@ -53,6 +61,7 @@ public class Camera extends Activity implements View.OnClickListener {
         useFlash = (CompoundButton) findViewById(R.id.use_flash);
 
         findViewById(R.id.read_text).setOnClickListener(this);
+        findViewById(R.id.confirm_camera).setOnClickListener(this);
     }
 
     /**
@@ -62,15 +71,64 @@ public class Camera extends Activity implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.read_text) {
-            // launch Ocr capture activity.
-            Intent intent = new Intent(this, OcrCaptureActivity.class);
-            intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
-            intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
+        Intent intent;
+        switch(v.getId()) {
+            case R.id.read_text:
+                // launch Ocr capture activity.
+                intent = new Intent(Camera.this, OcrCaptureActivity.class);
+                intent.putExtra(OcrCaptureActivity.AutoFocus, autoFocus.isChecked());
+                intent.putExtra(OcrCaptureActivity.UseFlash, useFlash.isChecked());
 
-            startActivityForResult(intent, RC_OCR_CAPTURE);
+                startActivityForResult(intent, RC_OCR_CAPTURE);
+                break;
+
+            case R.id.confirm_camera:
+                //launch confirm transaction
+                transactionPopup();
+                break;
+            }
         }
-    }
+
+        public void transactionPopup() {
+            //adding a alert dialog for vendor name
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter Transaction Name");
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String temp = input.getText().toString();
+                    setTransaction(temp);
+                    if(!transaction.equals("")) {
+                        Intent intent = new Intent(Camera.this, ConfirmTransaction.class);
+
+                        intent.putExtra("itemName", transaction);
+                        intent.putExtra("date", currentTime);
+                        intent.putExtra("amount", textValue.getText().toString());
+
+                        startActivity(intent);
+                    }
+
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        }
+
+        public void setTransaction(String temp) {
+            transaction = temp;
+        }
 
     /**
      * Called when an activity you launched exits, giving you the requestCode

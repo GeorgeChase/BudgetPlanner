@@ -6,4 +6,7 @@
     <color name="colorAccentLight">#9ce16506</color>
     <color name="transparent_box">#cc9b9999</color>
     <color name="hint_text_dark">#bf151515</color>
+    <color name="checkBox">#FFF</color>
+    <color name="buttonsForCamera">#000000</color>
+    <color name="buttonsAccentForCamera">#fdfdfd</color>
 </resources>

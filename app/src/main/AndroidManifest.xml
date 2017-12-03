@@ -60,6 +60,17 @@
         android:label="Read Text"
         android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".ConfirmTransaction"
+            android:label="ConfirmTransaction"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".AllTransactions"
+            android:label="@string/all_transactions"
+            android:theme="@style/AppTheme" />
+
+
     </application>
 
 </manifest>

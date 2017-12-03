@@ -19,6 +19,7 @@ import android.util.SparseArray;
 
 import com.example.georgechase.budgetplanner.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.text.Line;
 import com.google.android.gms.vision.text.TextBlock;
 
 /**

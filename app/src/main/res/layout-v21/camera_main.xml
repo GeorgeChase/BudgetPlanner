@@ -14,7 +14,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/ocr_header"
         android:id="@+id/status_message"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,22 +23,20 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/text_value"
         android:layout_below="@+id/status_message"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="110dp"
-        android:layout_alignRight="@+id/status_message"
         android:layout_alignEnd="@+id/status_message" />
 
     <Button
         android:id="@+id/read_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/buttonsForCamera"
+        android:textColor="@color/buttonsAccentForCamera"
         android:layout_above="@+id/confirm_camera"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"
-        android:background="@color/buttonsForCamera"
-        android:text="@string/read_text"
-        android:textColor="@color/buttonsAccentForCamera" />
+        android:layout_marginBottom="37dp"
+        android:text="@string/read_text" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -48,7 +45,6 @@
         android:textColor="@color/checkBox"
         android:id="@+id/auto_focus"
         android:layout_below="@+id/text_value"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="66dp"
         android:checked="true" />
@@ -58,10 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/auto_focus"
-        android:layout_alignParentLeft="true"
         android:textColor="@color/checkBox"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/auto_focus"
         android:layout_below="@+id/auto_focus"
         android:checked="false"
         android:text="@string/use_flash" />
@@ -72,9 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/read_text"
-        android:layout_marginBottom="40dp"
-        android:background="@color/buttonsForCamera"
+        android:layout_marginBottom="36dp"
+        android:backgroundTint="@color/buttonsForCamera"
         android:text="@string/confirm_camera"
         android:textColor="@color/buttonsAccentForCamera" />
 
