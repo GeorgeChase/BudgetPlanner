@@ -12,20 +12,18 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="56dp"
         android:text="@string/frag_goals_header"
-        android:textSize="28sp"
+        android:textSize="38sp"
         app:layout_constraintBottom_toTopOf="@+id/goalsTable"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newGoalBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="82dp"
+        android:layout_height="87dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -36,14 +34,14 @@
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.974"
+        app:layout_constraintHorizontal_bias="0.903"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.898" />
+        app:layout_constraintVertical_bias="0.913" />
 
     <TableLayout
         android:id="@+id/goalsTable"
-        android:layout_width="0dp"
+        android:layout_width="706dp"
         android:layout_height="330dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -53,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.425">
+        app:layout_constraintVertical_bias="0.183">
 
         <TableRow
             android:layout_width="match_parent"
@@ -62,7 +60,7 @@
 
             <TextView
                 android:id="@+id/dateHeader"
-                android:layout_width="match_parent"
+                android:layout_width="184dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:paddingBottom="3sp"
@@ -72,11 +70,11 @@
                 android:paddingStart="5dp"
                 android:paddingTop="3sp"
                 android:text="@string/frag_date_header"
-                android:textSize="20sp" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/categoryHeader"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:paddingBottom="3sp"
@@ -86,11 +84,11 @@
                 android:paddingStart="30dp"
                 android:paddingTop="3sp"
                 android:text="@string/frag_category_header"
-                android:textSize="20sp" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/amountHeader"
-                android:layout_width="match_parent"
+                android:layout_width="367dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:gravity="end"
@@ -101,7 +99,7 @@
                 android:paddingStart="20dp"
                 android:paddingTop="3sp"
                 android:text="@string/frag_amount_needed_header"
-                android:textSize="20sp" />
+                android:textSize="28sp" />
         </TableRow>
     </TableLayout>
 

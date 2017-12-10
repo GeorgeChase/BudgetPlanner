@@ -12,17 +12,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="124dp"
         android:background="@color/transparent_box"
         android:padding="10dp"
         android:text='Welcome!'
-        android:textSize="20sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.001" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -49,6 +49,7 @@
                 android:id="@+id/recentTransOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="25sp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:text="Recent Transactions"
@@ -57,7 +58,7 @@
             <ListView
                 android:id="@+id/recentTransList"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_gravity="start"
                 android:divider="@color/material_blue_grey_800"
                 android:dividerHeight="1dp" />
@@ -69,12 +70,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:text="Budgets"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/budgetList"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:divider="@color/material_blue_grey_800"
                 android:dividerHeight="1dp" />
 

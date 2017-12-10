@@ -176,13 +176,23 @@ public class NewGoal extends AppCompatActivity {
         goal.setCategory(chosenCategory);
         goal.setRequired_amount(amtReqET.getText().toString());
 
+        //
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        DatabaseReference goalsRef = ref.child("goals");
+        DatabaseReference pushedGoalRef = goalsRef.push();
+        String goalId = pushedGoalRef.getKey();
+
+
+
         //Updates current user's goals
-        String goalCounter = Integer.toString(count);
         FirebaseDatabase.getInstance().getReference()
                 .child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("goals")
-                .child("goal " + goalCounter)
+                .child(goalId)
                 .setValue(goal);
 
         Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_SHORT).show();

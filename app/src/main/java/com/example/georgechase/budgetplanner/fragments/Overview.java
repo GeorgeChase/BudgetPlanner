@@ -15,7 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Overview extends Fragment {
 
     ListView transList;
-    ListView billsList;
     ListView budgetList;
     FirebaseDatabase database;
 
@@ -43,17 +42,6 @@ public class Overview extends Fragment {
         );
 
         transList.setAdapter(arrayAdapter1);
-
-        String listOfBills[] = {"Bill 1", "Bill 2", "Bill 3"};
-        billsList = view.findViewById(R.id.billsList);
-
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<>(
-                getActivity().getBaseContext(),
-                android.R.layout.simple_list_item_1,
-                listOfBills
-        );
-
-        billsList.setAdapter(arrayAdapter2);
 
         String listOfBudgets[] = {"Budget 1", "Budget 2", "Budget 3"};
         budgetList = view.findViewById(R.id.budgetList);

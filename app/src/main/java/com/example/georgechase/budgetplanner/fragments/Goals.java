@@ -75,39 +75,21 @@ public class Goals extends Fragment {
         TextView theDate = new TextView(getActivity());
         theDate.setId(100 + count);
         theDate.setText(date);
-        theDate.setTextSize(16);
+        theDate.setTextSize(18);
         theDate.setPadding(10,10,35,10);
-        /*theDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goalDetails(v);
-            }
-        });*/
 
         TextView category = new TextView(getActivity());
         category.setId(200 + count);
         category.setText(categoryData);
-        category.setTextSize(16);
+        category.setTextSize(18);
         category.setPadding(125,10,35,10);
-        /*category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goalDetails(v);
-            }
-        });*/
 
         TextView amtRequired = new TextView(getActivity());
         amtRequired.setId(300 + count);
         amtRequired.setText(amtReq);
-        amtRequired.setTextSize(16);
+        amtRequired.setTextSize(18);
         amtRequired.setPadding(35,10,35,10);
         amtRequired.setGravity(Gravity.END);
-        /*amtRequired.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goalDetails(v);
-            }
-        }); */
 
         row.setId(count);
         row.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +106,6 @@ public class Goals extends Fragment {
     }
 
     private void goalDetails(View v, TableLayout table) {
-        //TODO: Implement Goal Details Activity (Shows the clicked goal's details, options to edit, etc.)
 
         String date = "";
         String category = "";
