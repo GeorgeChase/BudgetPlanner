@@ -75,6 +75,10 @@ public class AllTransactions extends AppCompatActivity {
         amtRequired.setPadding(35, 10, 35, 10);
         amtRequired.setGravity(Gravity.END);
 
+        row.addView(theDate);
+        row.addView(category);
+        row.addView(amtRequired);
+
         transTable.addView(row);
     }
 
@@ -100,10 +104,10 @@ public class AllTransactions extends AppCompatActivity {
 
                 Log.d(TAG, "onDataChange: prevCount= " + prevCount + " | tempTransSize= " + tempTransList.size());
                 if (!firstInit) {
-                    initGoalTable();
+                    initTransactionTable();
                     firstInit = true;
                 } else if (prevCount < tempTransList.size()) {
-                    addNewGoal();
+                    addNewTransaction();
                 }
                 //Might need to add another else if depending on how deleting/editing a goal works
 
@@ -114,13 +118,13 @@ public class AllTransactions extends AppCompatActivity {
                 Log.d(TAG, "onDataChange: (onCancelled Method)");
             }
 
-            private void addNewGoal() {
+            private void addNewTransaction() {
                 int lastIndex = transList.size() - 1;
                 Transaction trans = transList.get(lastIndex);
                 insertTransactionToTable(trans.getDate(), trans.getItemName(), trans.getAmount());
             }
 
-            private void initGoalTable() {
+            private void initTransactionTable() {
                 for (int i = 0; i < transList.size(); i++) {
                     Transaction trans = transList.get(i);
                     Log.d(TAG, "onDataChange: (ADDING GOAL) found goal: " + trans.toString());
