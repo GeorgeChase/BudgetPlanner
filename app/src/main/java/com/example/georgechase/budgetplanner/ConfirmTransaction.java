@@ -59,12 +59,18 @@ public class ConfirmTransaction extends AppCompatActivity {
         trans.setAmount(amount);
         trans.setItemName(itemName);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("transactions");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("transactions");
 
-        DatabaseReference transRef = ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        DatabaseReference pushedTransRef = transRef.push();
-        String transID = pushedTransRef.getKey();
+        DatabaseReference userTransRef = ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DatabaseReference userTransPushRef = userTransRef.push();
+        String transId = userTransPushRef.getKey();
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("transactions")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(transId)
+                .setValue(trans);
 
         Toast.makeText(getApplicationContext(), "Transaction has successfully been added.",  Toast.LENGTH_SHORT).show();
         ManualTransaction.getInstance().finish();
