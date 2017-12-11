@@ -27,7 +27,6 @@ import java.util.Date;
 
 public class Charts extends Fragment {
     private View view;
-    private ArrayList<Transaction> transactionList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +35,11 @@ public class Charts extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_charts, container, false);
+        return view;
+    }
 
+    private void queryForTransactions() {
         DatabaseReference getTransactions = FirebaseDatabase.getInstance().getReference()
                 .child("transactions")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -49,17 +50,12 @@ public class Charts extends Fragment {
                 for (DataSnapshot transactionSnap : dataSnapshot.getChildren()){
                     tempList.add(transactionSnap.getValue(Transaction.class));
                 }
-                transactionList = tempList;
                 initGraph(tempList);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
-
-
-        return view;
     }
 
     private void initGraph(ArrayList<Transaction> list) {
@@ -81,14 +77,14 @@ public class Charts extends Fragment {
             data[i] = dp;
         }
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(data);
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(data);
         series.setColor(getResources().getColor(R.color.colorPrimary));
         graph.addSeries(series);
 
         //graph.getViewport().setScalable(true);
-        graph.getViewport().setYAxisBoundsManual(true);
+        /*graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(200);
+        graph.getViewport().setMaxY(200);*/
         graph.getGridLabelRenderer().setHumanRounding(true);
 
        /* PointsGraphSeries<DataPoint> series2 = new PointsGraphSeries<>(new DataPoint[] {
@@ -98,5 +94,11 @@ public class Charts extends Fragment {
         graph.addSeries(series2); */
 
         graph.setTitle("Transactions");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        queryForTransactions();
     }
 }

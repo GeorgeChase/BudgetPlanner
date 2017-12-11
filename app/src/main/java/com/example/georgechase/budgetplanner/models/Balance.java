@@ -1,18 +1,27 @@
 package com.example.georgechase.budgetplanner.models;
 
 public class Balance {
-    private String balance;
+    private String amount;
 
     public Balance(String balance) {
-        this.balance = balance;
+        this.amount = balance;
+    }
+
+    public Balance() {
     }
 
     public String getBalance() {
-        return balance;
+        return amount;
     }
 
     public void setBalance(String balance) {
-        this.balance = balance;
+        this.amount = balance;
     }
 
+    @Override
+    public String toString() {
+        return "Balance{" +
+                "balance='" + amount + '\'' +
+                '}';
+    }
 }

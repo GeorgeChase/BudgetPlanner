@@ -2,12 +2,12 @@ package com.example.georgechase.budgetplanner.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.georgechase.budgetplanner.Camera;
-import com.example.georgechase.budgetplanner.ConfirmTransaction;
 import com.example.georgechase.budgetplanner.R;
 import com.example.georgechase.budgetplanner.models.Balance;
 import com.example.georgechase.budgetplanner.models.Transaction;
@@ -26,12 +24,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -43,7 +41,7 @@ public class Overview extends Fragment {
     private ArrayList<Transaction> transactionList;
     private String[] list;
     private View view;
-    private TextView balance;
+    //private TextView balance;
 
 
     @Override
@@ -56,24 +54,27 @@ public class Overview extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference();
         view = inflater.inflate(R.layout.fragment_overview, container, false);
         checkFirstRun();
-        queryForTransactions();
-        setBalanceText();
         return view;
     }
 
     public void setBalanceText() {
-        balance = view.findViewById(R.id.balance);
-        DatabaseReference getBalance = FirebaseDatabase.getInstance().getReference()
+
+        Query getBalance = FirebaseDatabase.getInstance().getReference()
                 .child("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("balance");
         getBalance.addListenerForSingleValueEvent(new ValueEventListener() {
+            TextView balance = view.findViewById(R.id.balance);
+            String curr = "";
+            String finalText = "Your Current Balance Is: ";
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot BalanceSnap : dataSnapshot.getChildren()) {
-                    Balance currBalance = BalanceSnap.getValue(Balance.class);
-                    balance.setText(("Your Current Balance Is: " + currBalance.getBalance()));
+                    curr = BalanceSnap.getValue(String.class);
                 }
+                finalText =  finalText + curr;
+                Log.d("Overview", "onData: " + finalText);
+                balance.setText(finalText);
 
             }
             @Override
@@ -128,7 +129,12 @@ public class Overview extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String temp = input.getText().toString();
-                    reference.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("balance").setValue(temp);
+                    Balance bal = new Balance();
+                    bal.setBalance(temp);
+                    reference.child("users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("balance")
+                            .setValue(bal);
 
                 }
             });
@@ -142,10 +148,6 @@ public class Overview extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     private void queryForTransactions() {
         DatabaseReference getTransactions = FirebaseDatabase.getInstance().getReference()
@@ -179,7 +181,7 @@ public class Overview extends Fragment {
             String name = tran.getItemName();
             String amount = tran.getAmount();
 
-            list[i] = name + "          " + amount;
+            list[i] = name + " : " + amount;
         }
 
         transList = view.findViewById(R.id.recentTransList);
@@ -203,5 +205,11 @@ public class Overview extends Fragment {
         );
 
         budgetList.setAdapter(arrayAdapter3);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        setBalanceText();
+        queryForTransactions();
     }
 }

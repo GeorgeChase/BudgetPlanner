@@ -70,7 +70,7 @@
 
             <TextView
                 android:id="@+id/amountHeader"
-                android:layout_width="400dp"
+                android:layout_width="429dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:gravity="end"

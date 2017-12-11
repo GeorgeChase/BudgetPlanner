@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToViewAllTransactions(MenuItem item) {
-        //TODO: Implement View All Transactions Activity (See all transactions for user)
+        Intent i = new Intent(MainActivity.this, AllTransactions.class);
+        startActivity(i);
     }
 
     public void goToPreferences(MenuItem item) {
