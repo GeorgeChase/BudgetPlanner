@@ -125,13 +125,13 @@ public class GoalDetails extends AppCompatActivity{
     }
 
     public void deleteGoal(View view) {
-        toggleProgressBar();
+        //toggleProgressBar();
         //Remove goal from DB, and update the goal "#"?
 
     }
 
     public void saveChanges(View view) {
-        toggleProgressBar();
+        //toggleProgressBar();
         //Deletes Goal and re-adds the new one maybe?
     }
 

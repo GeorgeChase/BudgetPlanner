@@ -43,7 +43,7 @@ public class Overview extends Fragment {
 
         transList.setAdapter(arrayAdapter1);
 
-        String listOfBudgets[] = {"Budget 1", "Budget 2", "Budget 3"};
+        String listOfBudgets[] = {"Entertainment", "Food", "Clothing"};
         budgetList = view.findViewById(R.id.budgetList);
 
         ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<>(
