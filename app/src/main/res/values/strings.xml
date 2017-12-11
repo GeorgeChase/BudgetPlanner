@@ -151,4 +151,5 @@
     <string name="save_changes">Save Changes</string>
     <string name="tap_entry_above_to_edit">Tap Entry Above To Edit</string>
     <string name="all_trans_text">All Transactions</string>
+    <string name="amountHeaderAll">Amount</string>
 </resources>
