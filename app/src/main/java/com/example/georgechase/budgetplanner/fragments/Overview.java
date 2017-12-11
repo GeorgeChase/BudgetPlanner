@@ -1,13 +1,22 @@
 package com.example.georgechase.budgetplanner.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.georgechase.budgetplanner.Camera;
+import com.example.georgechase.budgetplanner.ConfirmTransaction;
 import com.example.georgechase.budgetplanner.R;
 import com.example.georgechase.budgetplanner.models.Transaction;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,9 +26,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Overview extends Fragment {
 
@@ -40,8 +52,68 @@ public class Overview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         reference = FirebaseDatabase.getInstance().getReference();
         view = inflater.inflate(R.layout.fragment_overview, container, false);
+        checkFirstRun();
         queryForTransactions();
         return view;
+    }
+
+    public void checkFirstRun() {
+        boolean isFirstRun = this.getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+            // Place your dialog code here to display the dialog
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Enter Budget Amount");
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            builder.setView(input);
+
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                private String current = "";
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(!s.toString().equals(current)){
+                        input.removeTextChangedListener(this);
+
+                        String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                        double parsed = Double.parseDouble(cleanString);
+                        String formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+
+                        current = formatted;
+                        input.setText(formatted);
+                        input.setSelection(formatted.length());
+
+                        input.addTextChangedListener(this);
+                    }
+                }
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+
+
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String temp = input.getText().toString();
+                    reference.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("balance").setValue(temp);
+
+                }
+            });
+
+            builder.show();
+
+            this.getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isFirstRun", false)
+                    .apply();
+        }
     }
 
     @Override
