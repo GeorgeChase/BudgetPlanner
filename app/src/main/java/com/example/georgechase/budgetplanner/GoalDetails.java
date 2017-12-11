@@ -128,6 +128,7 @@ public class GoalDetails extends AppCompatActivity{
         //toggleProgressBar();
         //Remove goal from DB, and update the goal "#"?
 
+
     }
 
     public void saveChanges(View view) {

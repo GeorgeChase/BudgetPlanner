@@ -171,7 +171,7 @@ public class NewGoal extends AppCompatActivity {
     }
 
     private void addGoalToDB() {
-        Goal goal = new Goal ();
+        Goal goal = new Goal();
         goal.setDate(dateET.getText().toString());
         goal.setCategory(chosenCategory);
         goal.setRequired_amount(amtReqET.getText().toString());
@@ -195,7 +195,7 @@ public class NewGoal extends AppCompatActivity {
                 .child(goalId)
                 .setValue(goal);
 
-        Toast.makeText(getApplicationContext(), "Goal has successfully been added.",  Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Goal has successfully been added.", Toast.LENGTH_SHORT).show();
         this.finish();
     }
 
