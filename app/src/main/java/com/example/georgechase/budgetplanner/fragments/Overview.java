@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.georgechase.budgetplanner.Camera;
 import com.example.georgechase.budgetplanner.ConfirmTransaction;
 import com.example.georgechase.budgetplanner.R;
+import com.example.georgechase.budgetplanner.models.Balance;
 import com.example.georgechase.budgetplanner.models.Transaction;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +43,7 @@ public class Overview extends Fragment {
     private ArrayList<Transaction> transactionList;
     private String[] list;
     private View view;
+    private TextView balance;
 
 
     @Override
@@ -54,8 +57,31 @@ public class Overview extends Fragment {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
         checkFirstRun();
         queryForTransactions();
+        setBalanceText();
         return view;
     }
+
+    public void setBalanceText() {
+        balance = view.findViewById(R.id.balance);
+        DatabaseReference getBalance = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("balance");
+        getBalance.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot BalanceSnap : dataSnapshot.getChildren()) {
+                    Balance currBalance = BalanceSnap.getValue(Balance.class);
+                    balance.setText(("Your Current Balance Is: " + currBalance.getBalance()));
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+    });
+}
 
     public void checkFirstRun() {
         boolean isFirstRun = this.getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
