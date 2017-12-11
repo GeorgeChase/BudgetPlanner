@@ -28,7 +28,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 
@@ -44,7 +46,7 @@ public class Camera extends Activity implements View.OnClickListener {
     private TextView statusMessage;
     private TextView textValue;
     private String transaction = "";
-    private String currentTime = Calendar.getInstance().getTime().toString();
+    private String currentTime;
 
     private static final int RC_OCR_CAPTURE = 9003;
     private static final String TAG = "Camera";
@@ -104,6 +106,7 @@ public class Camera extends Activity implements View.OnClickListener {
                 public void onClick(DialogInterface dialog, int which) {
                     String temp = input.getText().toString();
                     setTransaction(temp);
+                    updateLabel();
                     if(!transaction.equals("")) {
                         Intent intent = new Intent(Camera.this, ConfirmTransaction.class);
 
@@ -160,6 +163,7 @@ public class Camera extends Activity implements View.OnClickListener {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     statusMessage.setText(R.string.ocr_success);
                     textValue.setText(text);
+                    textValue.setVisibility(View.VISIBLE);
                     Log.d(TAG, "Text read: " + text);
                 } else {
                     statusMessage.setText(R.string.ocr_failure);
@@ -173,5 +177,11 @@ public class Camera extends Activity implements View.OnClickListener {
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void updateLabel() {
+        String dateFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        currentTime = sdf.format(Calendar.getInstance().getTime());
     }
 }
